@@ -9,6 +9,10 @@ public class MerchantSpecification : BaseSpecification<Merchant>
         (string.IsNullOrEmpty(specParams.Type) || x.Type == specParams.Type) &&
         (string.IsNullOrEmpty(specParams.Industry) || x.Industry == specParams.Industry) &&
         (string.IsNullOrEmpty(specParams.Location) || x.Location == specParams.Location) &&
+        (specParams.LastSurvey == null|| (x.LastSurvey.HasValue && x.LastSurvey.Value.Date == specParams.LastSurvey.Value.Date)) &&
+        (!specParams.LastTicket.HasValue || (x.LastTicket.HasValue && x.LastTicket.Value.Date == specParams.LastTicket.Value.Date)) &&
+        (!specParams.LastTransaction.HasValue || (x.LastTransaction.HasValue && x.LastTransaction.Value.Date == specParams.LastTransaction.Value.Date)) &&
+        (!specParams.LastFeedback.HasValue || (x.LastFeedback.HasValue && x.LastFeedback.Value.Date == specParams.LastFeedback.Value.Date)) &&
         (!specParams.MinTenureInDays.HasValue || x.TenureInDays >= specParams.MinTenureInDays.Value) &&
         (!specParams.MaxTenureInDays.HasValue || x.TenureInDays <= specParams.MaxTenureInDays.Value) &&
         (specParams.Products.Count == 0 || specParams.Products.Contains(x.Product)) &&

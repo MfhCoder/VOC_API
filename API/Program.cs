@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using QuestPDF.Infrastructure;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -81,7 +82,6 @@ app.UseStaticFiles();
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<AppUser>(); // api/login
 app.MapFallbackToController("Index", "Fallback");
-
 try
 {
     using var scope = app.Services.CreateScope();
@@ -96,5 +96,7 @@ catch (Exception ex)
     Console.WriteLine(ex);
     throw;
 }
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 app.Run();

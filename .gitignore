@@ -53,3 +53,6 @@ _ReSharper*/
 # Rider
 .idea/
 *.sln.iml
+/Core/Files
+/API/appsettings.Development.json
+/Files

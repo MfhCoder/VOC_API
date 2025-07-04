@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Metrics;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Metrics;
 
 namespace Core.Specifications;
 
@@ -38,31 +39,45 @@ public class MerchantSpecParams : PagingParams
     public string? Type { get; set; }
     public string? Industry { get; set; }
     public string? Location { get; set; }
-
-    //private string? _type;
-    //public string Type
-    //{
-    //    get => _type ?? "";
-    //    set => _type;
-    //}
-
-    //private string? _industry;
-    //public string Industry
-    //{
-    //    get => _industry ?? "";
-    //    set => _industry = value.ToLower();
-    //}
-
-    //private string? _location;
-    //public string Location
-    //{
-    //    get => _location ?? "";
-    //    set => _location = value.ToLower();
-    //}
-
     public string? MinTenure { get; set; }
     public string? MaxTenure { get; set; }
 
     public int? MinTenureInDays { get; set; }
     public int? MaxTenureInDays { get; set; }
+
+    private DateTime? _lastSurvey;
+    public DateTime? LastSurvey
+    {
+        get => _lastSurvey;
+        set => _lastSurvey = value.HasValue
+            ? DateTime.SpecifyKind(value.Value.Date, DateTimeKind.Utc)
+            : null;
+    }
+
+    private DateTime? _lastTicket;
+    public DateTime? LastTicket
+    {
+        get => _lastTicket;
+        set => _lastTicket = value.HasValue
+            ? DateTime.SpecifyKind(value.Value.Date, DateTimeKind.Utc)
+            : null;
+    }
+
+    private DateTime? _lastTransaction;
+    public DateTime? LastTransaction
+    {
+        get => _lastTransaction;
+        set => _lastTransaction = value.HasValue
+            ? DateTime.SpecifyKind(value.Value.Date, DateTimeKind.Utc)
+            : null;
+    }
+
+    private DateTime? _lastFeedback;
+    public DateTime? LastFeedback
+    {
+        get => _lastFeedback;
+        set => _lastFeedback = value.HasValue
+            ? DateTime.SpecifyKind(value.Value.Date, DateTimeKind.Utc)
+            : null;
+    }
 }
