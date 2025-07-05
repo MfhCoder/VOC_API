@@ -7,5 +7,7 @@ Add MerchantsController with endpoints for retrieving merchants, industries, and
 - Added GetIndustries to retrieve a list of industries
 - Added GetLocations to retrieve a list of locations
 - Integrated authorization for all endpoints
+- --------------------------------------------------------------------------
 -adding filter by(LastSurvey,LastTicket,LastTransaction,LastFeedback)
+
 -adding CSV and PDF Export features
