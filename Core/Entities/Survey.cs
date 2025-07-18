@@ -1,10 +1,29 @@
-﻿namespace Core.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class Survey : BaseEntity
+namespace Core.Entities
 {
-    public string Name { get; set; }
-    public string CreatedBy { get; set; }
-    public AppUser Creator { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public ICollection<SurveyQuestion> Questions { get; set; }
+    [Table("Surveys")]
+    public class Survey : BaseEntity
+    {
+        [Required]
+        [StringLength(200)]
+        public string Name { get; set; }
+
+        [Required]
+        [ForeignKey("Creator")]
+        public int CreatedBy { get; set; }
+
+        public virtual User Creator { get; set; }
+
+        [Required]
+        public DateTime CreatedAt { get; set; }
+
+        public virtual ICollection<QuestionSection> QuestionSections { get; set; }
+        public virtual ICollection<SurveyQuestion> Questions { get; set; }
+        public virtual ICollection<SurveyBatch> SurveyBatches { get; set; }
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<Permission> Permissions { get; set; }
+        public virtual ICollection<SurveyFilters> SurveyFilters { get; set; }
+    }
 }

@@ -1,7 +1,15 @@
-﻿namespace Core.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class Tag : BaseEntity
+namespace Core.Entities
 {
-    public string Name { get; set; }
-    public ICollection<FeedbackTag> FeedbackTags { get; set; }
+    [Table("Tags")]
+    public class Tag : BaseEntity
+    {
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+
+        public virtual ICollection<FeedbackTag> FeedbackTags { get; set; }
+    }
 }

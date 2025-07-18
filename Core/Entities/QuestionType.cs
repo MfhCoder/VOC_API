@@ -1,6 +1,15 @@
-﻿namespace Core.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class QuestionType : BaseEntity
+namespace Core.Entities
 {
-    public string Name { get; set; }
+    [Table("QuestionTypes")]
+    public class QuestionType : BaseEntity
+    {
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; }
+
+        public virtual ICollection<SurveyQuestion> Questions { get; set; }
+    }
 }

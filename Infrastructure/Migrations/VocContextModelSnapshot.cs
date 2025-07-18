@@ -22,76 +22,6 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Core.Entities.AppUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
             modelBuilder.Entity("Core.Entities.Channel", b =>
                 {
                     b.Property<int>("Id")
@@ -101,12 +31,13 @@ namespace Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -129,7 +60,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("LongUrl")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.HasKey("Id");
 
@@ -146,11 +78,13 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -167,7 +101,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Comment")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -183,11 +118,13 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
@@ -206,28 +143,25 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("text");
-
-                    b.Property<int>("DeliveryId")
+                    b.Property<int?>("DeliveryId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("MerchantId")
+                    b.Property<int?>("MerchantId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("SubmittedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("SubmittedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int?>("SubmittedBy")
+                        .HasColumnType("integer");
 
                     b.Property<int>("SurveyId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("AppUserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("DeliveryId");
 
@@ -236,6 +170,8 @@ namespace Infrastructure.Migrations
                     b.HasIndex("SubmittedBy");
 
                     b.HasIndex("SurveyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Feedbacks");
                 });
@@ -251,12 +187,15 @@ namespace Infrastructure.Migrations
                     b.Property<int>("FeedbackId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("OptionId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("QuestionId")
                         .HasColumnType("integer");
 
                     b.Property<string>("ResponseText")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
 
                     b.Property<float?>("SentimentScore")
                         .HasColumnType("real");
@@ -264,6 +203,8 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FeedbackId");
+
+                    b.HasIndex("OptionId");
 
                     b.HasIndex("QuestionId");
 
@@ -297,8 +238,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Industry")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("LastEscalation")
                         .HasColumnType("timestamp with time zone");
@@ -316,60 +257,185 @@ namespace Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Ledger")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("License")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Location")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("MerchantSettlementBank")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<string>("PhoneNo")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("PosMcc")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("Product")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Tenure")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
 
                     b.Property<int?>("TenureInDays")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TerminalCount")
+                    b.Property<int?>("TerminalCount")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TransactionCount")
+                    b.Property<int?>("TransactionCount")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("TransactionValue")
-                        .HasColumnType("numeric");
+                    b.Property<decimal?>("TransactionValue")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Merchants");
+                });
+
+            modelBuilder.Entity("Core.Entities.Module", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Modules");
+                });
+
+            modelBuilder.Entity("Core.Entities.Permission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ModuleId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int?>("SurveyId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModuleId");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("Core.Entities.QuestionBranch", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ParentQuestionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("TriggerOptionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentQuestionId");
+
+                    b.HasIndex("TriggerOptionId");
+
+                    b.ToTable("QuestionBranches");
+                });
+
+            modelBuilder.Entity("Core.Entities.QuestionOption", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsTerminate")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("OptionText")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("TriggersBranch")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("QuestionId");
+
+                    b.ToTable("QuestionOptions");
+                });
+
+            modelBuilder.Entity("Core.Entities.QuestionSection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("SectionOrder")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SurveyId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("QuestionSections");
                 });
 
             modelBuilder.Entity("Core.Entities.QuestionType", b =>
@@ -382,11 +448,56 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("QuestionTypes");
+                });
+
+            modelBuilder.Entity("Core.Entities.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Core.Entities.RolePermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PermissionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RolePermissions");
                 });
 
             modelBuilder.Entity("Core.Entities.Survey", b =>
@@ -397,25 +508,25 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
-
                     b.HasIndex("CreatedBy");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Surveys");
                 });
@@ -428,45 +539,46 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("text");
-
                     b.Property<int>("ChannelId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("integer");
 
                     b.Property<int>("MerchantCount")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<DateTime>("ScheduledTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<int>("SurveyId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("AppUserId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ChannelId");
 
                     b.HasIndex("CreatedBy");
 
                     b.HasIndex("SurveyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("SurveyBatches");
                 });
@@ -487,7 +599,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("EncryptionToken")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int>("LinkId")
                         .HasColumnType("integer");
@@ -500,7 +613,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
@@ -511,6 +625,34 @@ namespace Infrastructure.Migrations
                     b.HasIndex("MerchantId");
 
                     b.ToTable("SurveyDeliveries");
+                });
+
+            modelBuilder.Entity("Core.Entities.SurveyFilters", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ColumnName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("ColumnValue")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("SurveyId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SurveyId");
+
+                    b.ToTable("SurveyFilters");
                 });
 
             modelBuilder.Entity("Core.Entities.SurveyQuestion", b =>
@@ -529,9 +671,13 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("QuestionText")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int>("QuestionTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("SectionId")
                         .HasColumnType("integer");
 
                     b.Property<int>("SurveyId")
@@ -540,6 +686,8 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionTypeId");
+
+                    b.HasIndex("SectionId");
 
                     b.HasIndex("SurveyId");
 
@@ -556,40 +704,15 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Core.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -597,114 +720,46 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RoleId")
+                    b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("JoiningDate")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ClaimType")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClaimValue")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("text");
-
-                    b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("LoginProvider", "ProviderKey");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AspNetUserLogins", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RoleId")
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                    b.Property<string>("Mobile")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Value")
-                        .HasColumnType("text");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
 
-                    b.HasKey("UserId", "LoginProvider", "Name");
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Core.Entities.Escalation", b =>
                 {
                     b.HasOne("Core.Entities.Department", "Department")
-                        .WithMany()
+                        .WithMany("Escalations")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Feedback", "Feedback")
-                        .WithMany()
+                        .WithMany("Escalations")
                         .HasForeignKey("FeedbackId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -716,33 +771,27 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
                 {
-                    b.HasOne("Core.Entities.AppUser", null)
-                        .WithMany("FeedbacksSubmitted")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Core.Entities.SurveyDelivery", "Delivery")
-                        .WithMany()
-                        .HasForeignKey("DeliveryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("DeliveryId");
 
                     b.HasOne("Core.Entities.Merchant", "Merchant")
-                        .WithMany()
-                        .HasForeignKey("MerchantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("MerchantId");
 
-                    b.HasOne("Core.Entities.AppUser", "Submitter")
+                    b.HasOne("Core.Entities.User", "Submitter")
                         .WithMany()
-                        .HasForeignKey("SubmittedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SubmittedBy");
 
                     b.HasOne("Core.Entities.Survey", "Survey")
-                        .WithMany()
+                        .WithMany("Feedbacks")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Core.Entities.User", null)
+                        .WithMany("FeedbacksSubmitted")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Delivery");
 
@@ -761,13 +810,19 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Entities.QuestionOption", "Option")
+                        .WithMany("Answers")
+                        .HasForeignKey("OptionId");
+
                     b.HasOne("Core.Entities.SurveyQuestion", "Question")
-                        .WithMany()
+                        .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Feedback");
+
+                    b.Navigation("Option");
 
                     b.Navigation("Question");
                 });
@@ -791,44 +846,117 @@ namespace Infrastructure.Migrations
                     b.Navigation("Tag");
                 });
 
+            modelBuilder.Entity("Core.Entities.Permission", b =>
+                {
+                    b.HasOne("Core.Entities.Module", "Module")
+                        .WithMany("Permissions")
+                        .HasForeignKey("ModuleId");
+
+                    b.HasOne("Core.Entities.Survey", "Survey")
+                        .WithMany("Permissions")
+                        .HasForeignKey("SurveyId");
+
+                    b.Navigation("Module");
+
+                    b.Navigation("Survey");
+                });
+
+            modelBuilder.Entity("Core.Entities.QuestionBranch", b =>
+                {
+                    b.HasOne("Core.Entities.SurveyQuestion", "ParentQuestion")
+                        .WithMany("ChildBranches")
+                        .HasForeignKey("ParentQuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.QuestionOption", "TriggerOption")
+                        .WithMany("TriggeredBranches")
+                        .HasForeignKey("TriggerOptionId");
+
+                    b.Navigation("ParentQuestion");
+
+                    b.Navigation("TriggerOption");
+                });
+
+            modelBuilder.Entity("Core.Entities.QuestionOption", b =>
+                {
+                    b.HasOne("Core.Entities.SurveyQuestion", "Question")
+                        .WithMany("Options")
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Core.Entities.QuestionSection", b =>
+                {
+                    b.HasOne("Core.Entities.Survey", "Survey")
+                        .WithMany("QuestionSections")
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
+                });
+
+            modelBuilder.Entity("Core.Entities.RolePermission", b =>
+                {
+                    b.HasOne("Core.Entities.Permission", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.Role", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Core.Entities.Survey", b =>
                 {
-                    b.HasOne("Core.Entities.AppUser", null)
-                        .WithMany("SurveysCreated")
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("Core.Entities.AppUser", "Creator")
+                    b.HasOne("Core.Entities.User", "Creator")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Core.Entities.User", null)
+                        .WithMany("SurveysCreated")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Core.Entities.SurveyBatch", b =>
                 {
-                    b.HasOne("Core.Entities.AppUser", null)
-                        .WithMany("SurveyBatchesCreated")
-                        .HasForeignKey("AppUserId");
-
                     b.HasOne("Core.Entities.Channel", "Channel")
-                        .WithMany()
+                        .WithMany("SurveyBatches")
                         .HasForeignKey("ChannelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.AppUser", "Creator")
+                    b.HasOne("Core.Entities.User", "Creator")
                         .WithMany()
                         .HasForeignKey("CreatedBy")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Survey", "Survey")
-                        .WithMany()
+                        .WithMany("SurveyBatches")
                         .HasForeignKey("SurveyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Core.Entities.User", null)
+                        .WithMany("SurveyBatchesCreated")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Channel");
 
@@ -840,19 +968,19 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.Entities.SurveyDelivery", b =>
                 {
                     b.HasOne("Core.Entities.SurveyBatch", "Batch")
-                        .WithMany()
+                        .WithMany("SurveyDelivery")
                         .HasForeignKey("BatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.DeliveryLink", "Link")
-                        .WithMany()
+                        .WithMany("SurveyDeliveries")
                         .HasForeignKey("LinkId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Core.Entities.Merchant", "Merchant")
-                        .WithMany()
+                        .WithMany("SurveyDeliveries")
                         .HasForeignKey("MerchantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -864,13 +992,28 @@ namespace Infrastructure.Migrations
                     b.Navigation("Merchant");
                 });
 
+            modelBuilder.Entity("Core.Entities.SurveyFilters", b =>
+                {
+                    b.HasOne("Core.Entities.Survey", "Survey")
+                        .WithMany("SurveyFilters")
+                        .HasForeignKey("SurveyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Survey");
+                });
+
             modelBuilder.Entity("Core.Entities.SurveyQuestion", b =>
                 {
                     b.HasOne("Core.Entities.QuestionType", "QuestionType")
-                        .WithMany()
+                        .WithMany("Questions")
                         .HasForeignKey("QuestionTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Core.Entities.QuestionSection", "Section")
+                        .WithMany("Questions")
+                        .HasForeignKey("SectionId");
 
                     b.HasOne("Core.Entities.Survey", "Survey")
                         .WithMany("Questions")
@@ -880,84 +1023,133 @@ namespace Infrastructure.Migrations
 
                     b.Navigation("QuestionType");
 
+                    b.Navigation("Section");
+
                     b.Navigation("Survey");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Core.Entities.User", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
-                {
-                    b.HasOne("Core.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
-                {
-                    b.HasOne("Core.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
-                        .WithMany()
+                    b.HasOne("Core.Entities.Role", "Role")
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Core.Entities.Channel", b =>
                 {
-                    b.HasOne("Core.Entities.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("SurveyBatches");
                 });
 
-            modelBuilder.Entity("Core.Entities.AppUser", b =>
+            modelBuilder.Entity("Core.Entities.DeliveryLink", b =>
                 {
-                    b.Navigation("FeedbacksSubmitted");
+                    b.Navigation("SurveyDeliveries");
+                });
 
-                    b.Navigation("SurveyBatchesCreated");
-
-                    b.Navigation("SurveysCreated");
+            modelBuilder.Entity("Core.Entities.Department", b =>
+                {
+                    b.Navigation("Escalations");
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
                 {
                     b.Navigation("Answers");
 
+                    b.Navigation("Escalations");
+
                     b.Navigation("FeedbackTags");
+                });
+
+            modelBuilder.Entity("Core.Entities.Merchant", b =>
+                {
+                    b.Navigation("Feedbacks");
+
+                    b.Navigation("SurveyDeliveries");
+                });
+
+            modelBuilder.Entity("Core.Entities.Module", b =>
+                {
+                    b.Navigation("Permissions");
+                });
+
+            modelBuilder.Entity("Core.Entities.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("Core.Entities.QuestionOption", b =>
+                {
+                    b.Navigation("Answers");
+
+                    b.Navigation("TriggeredBranches");
+                });
+
+            modelBuilder.Entity("Core.Entities.QuestionSection", b =>
+                {
+                    b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("Core.Entities.QuestionType", b =>
+                {
+                    b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("Core.Entities.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("Core.Entities.Survey", b =>
                 {
+                    b.Navigation("Feedbacks");
+
+                    b.Navigation("Permissions");
+
+                    b.Navigation("QuestionSections");
+
                     b.Navigation("Questions");
+
+                    b.Navigation("SurveyBatches");
+
+                    b.Navigation("SurveyFilters");
+                });
+
+            modelBuilder.Entity("Core.Entities.SurveyBatch", b =>
+                {
+                    b.Navigation("SurveyDelivery");
+                });
+
+            modelBuilder.Entity("Core.Entities.SurveyDelivery", b =>
+                {
+                    b.Navigation("Feedbacks");
+                });
+
+            modelBuilder.Entity("Core.Entities.SurveyQuestion", b =>
+                {
+                    b.Navigation("Answers");
+
+                    b.Navigation("ChildBranches");
+
+                    b.Navigation("Options");
                 });
 
             modelBuilder.Entity("Core.Entities.Tag", b =>
                 {
                     b.Navigation("FeedbackTags");
+                });
+
+            modelBuilder.Entity("Core.Entities.User", b =>
+                {
+                    b.Navigation("FeedbacksSubmitted");
+
+                    b.Navigation("SurveyBatchesCreated");
+
+                    b.Navigation("SurveysCreated");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,6 @@
 using API.Middleware;
 using Core.Entities;
-using Core.Interfaces;
+using Application.Interfaces;
 using Infrastructure;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -18,6 +18,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
+builder.Services
+    .AddApplicationServices()  // From Application layer
+    .AddInfrastructureServices();  // From Infrastructure
+  //.AddCoreServices();  // From Core if you have any
+
 // PostgreSQL;
 builder.Services.AddDbContext<VocContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -32,9 +37,6 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddCors();
 
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<AppUser>()
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<VocContext>();
 
 // Configure JWT authentication
 var key = builder.Configuration["Jwt:Key"];
@@ -57,7 +59,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddSignalR();
+
 
 var app = builder.Build();
 
@@ -73,23 +75,22 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
     .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
-app.UseAuthentication();
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.MapControllers();
-app.MapGroup("api").MapIdentityApi<AppUser>(); // api/login
 app.MapFallbackToController("Index", "Fallback");
 try
 {
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<VocContext>();
-    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    //var userManager = services.GetRequiredService<UserManager<User>>();
     await context.Database.MigrateAsync();
-    await VocContextSeed.SeedAsync(context, userManager);
+    await VocContextSeed.SeedAsync(context);
 }
 catch (Exception ex)
 {

@@ -1,8 +1,21 @@
-﻿namespace Core.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-public class DeliveryLink : BaseEntity
+namespace Core.Entities
 {
-    public string LongUrl { get; set; }
-    public DateTime ExpirationDate { get; set; }
-    public bool IsActive { get; set; }
+    [Table("DeliveryLinks")]
+    public class DeliveryLink : BaseEntity
+    {
+        [Required]
+        [StringLength(500)]
+        public string LongUrl { get; set; }
+
+        [Required]
+        public DateTime ExpirationDate { get; set; }
+
+        [Required]
+        public bool IsActive { get; set; }
+
+        public virtual ICollection<SurveyDelivery> SurveyDeliveries { get; set; }
+    }
 }

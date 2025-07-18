@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
-using Core.Interfaces;
+using Application.Interfaces;
+using Application.Specifications;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 

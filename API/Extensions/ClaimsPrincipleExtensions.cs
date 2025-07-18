@@ -8,7 +8,7 @@ namespace API.Extensions;
 
 public static class ClaimsPrincipleExtensions
 {
-    public static async Task<AppUser> GetUserByEmail(this UserManager<AppUser> userManager,
+    public static async Task<User> GetUserByEmail(this UserManager<User> userManager,
         ClaimsPrincipal user)
     {
         var userToReturn = await userManager.Users.FirstOrDefaultAsync(x =>
@@ -19,7 +19,7 @@ public static class ClaimsPrincipleExtensions
         return userToReturn;
     }
 
-    public static async Task<AppUser> GetUserByEmailWithAddress(this UserManager<AppUser> userManager,
+    public static async Task<User> GetUserByEmailWithAddress(this UserManager<User> userManager,
         ClaimsPrincipal user)
     {
         var userToReturn = await userManager.Users

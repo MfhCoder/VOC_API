@@ -1,27 +1,49 @@
 ﻿using System.Reflection;
 using System.Text.Json;
 using Core.Entities;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
 
 public class VocContextSeed
 {
-    public static async Task SeedAsync(VocContext context, UserManager<AppUser> userManager)
+    public static async Task SeedAsync(VocContext context)
     {
-        if (!userManager.Users.Any(x => x.UserName == "admin@test.com"))
+
+        // Check if super admin role exists
+        if (!await context.Role.AnyAsync(r => r.Name == "SuperAdmin"))
         {
-            var user = new AppUser
+            // Create super admin role first
+            var superAdminRole = new Role
             {
-                UserName = "admin@test.com",
-                Email = "admin@test.com",
+                Name = "SuperAdmin",
+                CreatedDate = DateTime.UtcNow
+            };
+            context.Role.Add(superAdminRole);
+            await context.SaveChangesAsync();
+
+            // Now create super admin user
+            var superAdmin = new User
+            {
+                Name = "Super Admin",
+                Email = "superadmin@voc.com",
+                Mobile = "+1234567890",
+                JoiningDate = DateTime.UtcNow,
+                Status = UserStatus.Active,
+                RoleId = superAdminRole.Id
             };
 
-            await userManager.CreateAsync(user, "Pa$$w0rd");
-            await userManager.AddToRoleAsync(user, "Admin");
-        }
+            // Hash password
+            //superAdmin.PasswordHash = passwordHasher.HashPassword(superAdmin, "Admin@123");
 
-        var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            context.User.Add(superAdmin);
+            await context.SaveChangesAsync();
+
+            // Update role's CreatedBy
+            //superAdminRole.Create = superAdmin.UserId;
+            await context.SaveChangesAsync();
+        }
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         if (!context.Merchants.Any())
         {

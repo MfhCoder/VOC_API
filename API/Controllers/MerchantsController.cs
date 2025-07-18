@@ -1,28 +1,40 @@
 using API.RequestHelpers;
 using Core.Entities;
 using Core.Helpers;
-using Core.Interfaces;
-using Core.Specifications;
+using Application.Interfaces;
+using Application.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuestPDF.Fluent;
+using AutoMapper;
+using Infrastructure.Data;
+using Application.Dtos.Merchant;
 
 namespace API.Controllers;
 
-[Authorize]
-public class MerchantsController(IUnitOfWork unit) : BaseApiController
+//[Authorize]
+public class MerchantsController : BaseApiController
 {
-    [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Merchant>>> GetMerchants(
-        [FromQuery] MerchantSpecParams specParams)
+    private readonly IUnitOfWork unit;
+    private readonly IMerchantService merchantService;
+
+    public MerchantsController(
+        IUnitOfWork unitOfWork,
+      IMapper mapper,IMerchantService merchantService) : base(mapper)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        unit = unitOfWork;
+        this.merchantService = merchantService;
+    }
 
-        ParseTenure(specParams);
-
-        var spec = new MerchantSpecification(specParams);
-        return await CreatePagedResult(unit.Repository<Merchant>(), spec, specParams.PageIndex, specParams.PageSize);
+    [HttpGet]
+    public async Task<ActionResult> GetMerchants([FromQuery] MerchantSpecParams filterParams)
+    {
+        var spec = new MerchantSpecification(filterParams);
+        return await CreatePagedResult<Merchant, MerchantDto>(
+            unit.Repository<Merchant>(),
+            spec,
+            filterParams.PageIndex,
+            filterParams.PageSize);
     }
 
     [HttpGet("industries")]
@@ -42,48 +54,15 @@ public class MerchantsController(IUnitOfWork unit) : BaseApiController
     [HttpGet("export")]
     public async Task<IActionResult> ExportMerchants([FromQuery] MerchantSpecParams specParams)
     {
-        ParseTenure(specParams);
-
-        var spec = new MerchantSpecification(specParams);
-        var merchants = await unit.Repository<Merchant>().ListAsync(spec);
-        var csv = GenerateCsv(merchants);
-
-        var bytes = System.Text.Encoding.UTF8.GetBytes(csv.ToString());
-        return File(bytes, "text/csv", "merchants.csv");
+        return File(await merchantService.ExportMerchantsCSV(specParams), "text/csv", "merchants.csv");
     }
 
     [HttpGet("export-pdf")]
     public async Task<IActionResult> ExportMerchantsPdf([FromQuery] MerchantSpecParams specParams)
     {
-        ParseTenure(specParams);
-
-        var spec = new MerchantSpecification(specParams);
-        var merchants = await unit.Repository<Merchant>().ListAsync(spec);
-        var document = new MerchantsPdfDocument(merchants);
-        var pdfBytes = document.GeneratePdf();
-
-        return File(pdfBytes, "application/pdf", "merchants.pdf");
+        return File(await merchantService.ExportMerchantsPDF(specParams), "application/pdf", "merchants.pdf");
     }
 
-    private void ParseTenure(MerchantSpecParams specParams)
-    {
-        if (!string.IsNullOrEmpty(specParams.MinTenure))
-            specParams.MinTenureInDays = TenureHelper.ParseTenureToDays(specParams.MinTenure);
 
-        if (!string.IsNullOrEmpty(specParams.MaxTenure))
-            specParams.MaxTenureInDays = TenureHelper.ParseTenureToDays(specParams.MaxTenure);
-    }
 
-    private System.Text.StringBuilder GenerateCsv(IReadOnlyList<Merchant> merchants)
-    {
-        var csv = new System.Text.StringBuilder();
-        csv.AppendLine("Id,Name,Industry,Location,Tenure,TenureInDays,PhoneNo,LastSurvey,LastFeedback,Ledger,LastTransaction,LastTicket,CreatedOn,LastEscalation");
-
-        foreach (var m in merchants)
-        {
-            csv.AppendLine($"{m.Id},{CsvHelper.EscapeCsv(m.Name)},{CsvHelper.EscapeCsv(m.Industry)},{CsvHelper.EscapeCsv(m.Location)},{CsvHelper.EscapeCsv(m.Tenure)},{m.TenureInDays},{CsvHelper.EscapeCsv(m.PhoneNo)},{CsvHelper.EscapeCsv(m.LastSurvey?.ToString())},{CsvHelper.EscapeCsv(m.LastFeedback?.ToString())},{CsvHelper.EscapeCsv(m.Ledger?.ToString())},{CsvHelper.EscapeCsv(m.LastTransaction?.ToString())},{CsvHelper.EscapeCsv(m.LastTicket?.ToString())},{CsvHelper.EscapeCsv(m.CreatedOn.ToString())},{CsvHelper.EscapeCsv(m.LastEscalation?.ToString())}");
-        }
-
-        return csv;
-    }
 }

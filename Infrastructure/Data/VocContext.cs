@@ -1,12 +1,18 @@
 ﻿using Core.Entities;
-using Infrastructure.Config;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Infrastructure.Data.Config;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
 
-public class VocContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
+public class VocContext : DbContext
 {
+    public VocContext(DbContextOptions<VocContext> options) : base(options)
+    {
+    }
+    public DbSet<User> User { get; set; }
+    public DbSet<Role> Role { get; set; }
+    public DbSet<RolePermission> RolePermission { get; set; }
+    public DbSet<SurveyFilters> SurveyFilters { get; set; }
     public DbSet<Department> Departments { get; set; }
     public DbSet<Merchant> Merchants { get; set; }
     public DbSet<Survey> Surveys { get; set; }
@@ -21,6 +27,11 @@ public class VocContext(DbContextOptions options) : IdentityDbContext<AppUser>(o
     public DbSet<FeedbackTag> FeedbackTags { get; set; }
     public DbSet<Escalation> Escalations { get; set; }
     public DbSet<DeliveryLink> DeliveryLinks { get; set; }
+    public DbSet<Module> Module { get; set; }
+    public DbSet<Permission> Permission { get; set; }
+    public DbSet<QuestionBranch> QuestionBranch { get; set; }
+    public DbSet<QuestionOption> QuestionOption { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
