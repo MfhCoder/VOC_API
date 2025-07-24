@@ -1,6 +1,5 @@
 ﻿using Application.Dtos.UserDtos;
 using Core.Entities;
-using System.Linq.Expressions;
 
 namespace Application.Specifications.Users
 {
@@ -47,12 +46,5 @@ namespace Application.Specifications.Users
             AddInclude(x => x.Role);
         }
 
-        //public UserSpecification(Expression<Func<User, bool>> criteria)
-        //: base(criteria)
-        //{
-        //    AddInclude(x => x.Role);
-        //    AddInclude(x => x.Role.RolePermissions);
-        //    AddInclude("Role.RolePermissions.Permission");
-        //}
     }
 }

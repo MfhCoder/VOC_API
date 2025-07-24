@@ -1,6 +1,7 @@
 ﻿// Application/Extensions/ApplicationServiceExtensions.cs
 //using ;
 //using Application.Services;
+using Application.Dtos.RoleDtos;
 using Application.Interfaces;
 using Application.Mappings;
 using Application.Services;
@@ -17,6 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
             //services.AddScoped<IDeliveryService, DeliveryService>();
             services.AddScoped<IMerchantService, MerchantService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
             
             //// AutoMapper
             //services.AddAutoMapper(typeof(Application.Mappings.DeliveryProfile).Assembly);

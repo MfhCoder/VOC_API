@@ -24,10 +24,28 @@ namespace Application.Mappings
             CreateMap<UpdateUserDto, User>();
 
             // Role mappings
+            CreateMap<Role, RolesDto>();
+
             CreateMap<Role, RoleDto>()
-                .ForMember(dest => dest.Permissions,
-                    opt => opt.MapFrom(src => src.RolePermissions
-                        .Select(rp => rp.Permission.Name)));
+                .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Name));
+
+            CreateMap<CreateRoleDto, Role>()
+             .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
+
+            // Permission mappings
+            CreateMap<CreatePermissionDto, Permission>();
+
+            CreateMap<Permission, PermissionDto>()
+                .ForMember(dest => dest.ModuleName, o => o.MapFrom(s => s.Module != null ? s.Module.Name : null))
+                .ForMember(dest => dest.SurveyName, o => o.MapFrom(s => s.Survey != null ? s.Survey.Name : null));
+
+            CreateMap<Modules, ModulesDto>();
+
+            //CreateMap<Role, RoleDto>()
+            //    .ForMember(dest => dest.Permissions,
+            //        opt => opt.MapFrom(src => src.RolePermissions
+            //            .Select(rp => rp.Permission.Name)));
 
             //// Permission mappings
             //CreateMap<Permission, PermissionDto>()

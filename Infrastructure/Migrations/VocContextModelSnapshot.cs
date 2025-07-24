@@ -41,7 +41,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Channels");
+                    b.ToTable("Channels", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.DeliveryLink", b =>
@@ -65,7 +65,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryLinks");
+                    b.ToTable("DeliveryLinks", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Department", b =>
@@ -88,7 +88,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Escalation", b =>
@@ -132,7 +132,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("FeedbackId");
 
-                    b.ToTable("Escalations");
+                    b.ToTable("Escalations", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Feedback", b =>
@@ -173,7 +173,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Feedbacks");
+                    b.ToTable("Feedbacks", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.FeedbackAnswer", b =>
@@ -208,7 +208,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("FeedbackAnswers");
+                    b.ToTable("FeedbackAnswers", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.FeedbackTag", b =>
@@ -223,7 +223,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("FeedbackTags");
+                    b.ToTable("FeedbackTags", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Merchant", b =>
@@ -311,7 +311,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Merchants");
+                    b.ToTable("Merchants", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Module", b =>
@@ -329,7 +329,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Modules");
+                    b.ToTable("Modules", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Permission", b =>
@@ -357,7 +357,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.QuestionBranch", b =>
@@ -380,7 +380,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TriggerOptionId");
 
-                    b.ToTable("QuestionBranches");
+                    b.ToTable("QuestionBranches", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.QuestionOption", b =>
@@ -409,7 +409,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("QuestionOptions");
+                    b.ToTable("QuestionOptions", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.QuestionSection", b =>
@@ -435,7 +435,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("QuestionSections");
+                    b.ToTable("QuestionSections", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.QuestionType", b =>
@@ -453,7 +453,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("QuestionTypes");
+                    b.ToTable("QuestionTypes", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Role", b =>
@@ -474,7 +474,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.RolePermission", b =>
@@ -497,7 +497,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RolePermissions");
+                    b.ToTable("RolePermissions", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Survey", b =>
@@ -528,7 +528,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Surveys");
+                    b.ToTable("Surveys", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.SurveyBatch", b =>
@@ -580,7 +580,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SurveyBatches");
+                    b.ToTable("SurveyBatches", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.SurveyDelivery", b =>
@@ -624,7 +624,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("MerchantId");
 
-                    b.ToTable("SurveyDeliveries");
+                    b.ToTable("SurveyDeliveries", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.SurveyFilters", b =>
@@ -652,7 +652,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("SurveyFilters");
+                    b.ToTable("SurveyFilters", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.SurveyQuestion", b =>
@@ -691,7 +691,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("SurveyId");
 
-                    b.ToTable("SurveyQuestions");
+                    b.ToTable("SurveyQuestions", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Tag", b =>
@@ -709,7 +709,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
@@ -747,7 +747,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Escalation", b =>

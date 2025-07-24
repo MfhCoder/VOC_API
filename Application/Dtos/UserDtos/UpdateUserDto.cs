@@ -3,10 +3,7 @@
 namespace Application.Dtos.UserDtos;
 
 public record UpdateUserDto(
-    string Name,
-    string Mobile,
-    int? RoleId,
-    UserStatus Status);
+    int? RoleId);
 
 //public record UserFilterParams : PaginationParams
 //{

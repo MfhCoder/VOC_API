@@ -6,6 +6,10 @@ namespace Core.Entities
     [Table("Roles")]
     public class Role : BaseEntity
     {
+        public Role()
+        {
+            RolePermissions = new List<RolePermission>();
+        }
         [Required]
         [StringLength(100)]
         public string Name { get; set; }

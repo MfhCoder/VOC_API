@@ -10,6 +10,7 @@ public class VocContextSeed
     public static async Task SeedAsync(VocContext context)
     {
 
+        #region super admin role seed
         // Check if super admin role exists
         if (!await context.Role.AnyAsync(r => r.Name == "SuperAdmin"))
         {
@@ -43,10 +44,47 @@ public class VocContextSeed
             //superAdminRole.Create = superAdmin.UserId;
             await context.SaveChangesAsync();
         }
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        #endregion
+        
+        #region Modules Seed
+        if (!await context.Module.AnyAsync())
+        {
+            if (!await context.Module.AnyAsync())
+            {
+                var modules = new List<Modules>
+                {
+                    new Modules
+                    {
+                        Name = "Survey Management",
+                    },
+                    new Modules
+                    {
+                        Name = "Survey Delivery",
+                    },
+                    new Modules
+                    {
+                        Name = "Survey Builder",
+                    },
+                    new Modules
+                    {
+                        Name = "Team Management",
+                    },
+                    new Modules
+                    {
+                        Name = "Role Management",
+                    }
+                };
+                context.Module.AddRange(modules);
+                await context.SaveChangesAsync();
+            }
+        }
+        #endregion
 
+        #region Merchants Seed
         if (!context.Merchants.Any())
         {
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
             var MerchantData = await File
               .ReadAllTextAsync(path + @"/Data/SeedData/merchants.json");
 
@@ -75,5 +113,6 @@ public class VocContextSeed
             await context.SaveChangesAsync();
 
         }
+        #endregion
     }
 }

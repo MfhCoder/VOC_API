@@ -1,11 +1,15 @@
-﻿namespace Application.Dtos.RoleDtos;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Application.Dtos.RoleDtos;
 
 public record AssignPermissionsDto(
-    List<ModulePermissionsDto> ModulePermissionIds,
-    List<SurveyPermissionsDto> SurveyPermissionIds);
+    List<ModulePermissionIds> ModulePermissionIds,
+    List<SurveyPermissionIds> SurveyPermissionIds);
 
-//public record RoleFilterParams : PaginationParams
-//{
-//    public string Search { get; set; }
-//    public string Organization { get; set; }
-//}
+public record ModulePermissionIds(
+    int ModuleId,
+    int PermissionId);
+
+public record SurveyPermissionIds(
+    int SurveyId,
+    int PermissionId);

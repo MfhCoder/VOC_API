@@ -27,7 +27,7 @@ public class VocContext : DbContext
     public DbSet<FeedbackTag> FeedbackTags { get; set; }
     public DbSet<Escalation> Escalations { get; set; }
     public DbSet<DeliveryLink> DeliveryLinks { get; set; }
-    public DbSet<Module> Module { get; set; }
+    public DbSet<Modules> Module { get; set; }
     public DbSet<Permission> Permission { get; set; }
     public DbSet<QuestionBranch> QuestionBranch { get; set; }
     public DbSet<QuestionOption> QuestionOption { get; set; }
@@ -56,6 +56,12 @@ public class VocContext : DbContext
             .HasOne(f => f.Submitter)
             .WithMany()
             .HasForeignKey(f => f.SubmittedBy);
+
+        //modelBuilder.Entity<RolePermission>()
+        //    .HasOne(rp => rp.Role)
+        //    .WithMany(r => r.RolePermissions)
+        //    .HasForeignKey(rp => rp.RoleId)
+        //    .OnDelete(DeleteBehavior.Cascade);
     }
 }
 

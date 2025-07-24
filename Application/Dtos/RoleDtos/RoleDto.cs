@@ -1,13 +1,28 @@
-﻿namespace Application.Dtos.RoleDtos;
+﻿using Core.Entities;
 
-public record RoleDto(
-    int Id,
-    string Name,
-    DateTime CreatedDate,
-    List<AssignPermissionsDto> Permissions);
+namespace Application.Dtos.RoleDtos;
 
-//public record RoleFilterParams : PaginationParams
-//{
-//    public string Search { get; set; }
-//    public string Organization { get; set; }
-//}
+public class RoleDto {
+    public int RoleId { get; set; }
+    public string RoleName { get; set; }
+    public DateTime CreatedDate { get; set; }
+    //public List<RolePermission> RolePermissions,
+    public List<ModulePermissionsDto> ModulePermissions { get; set; } = new List<ModulePermissionsDto>();
+    public List<SurveyPermissionsDto> SurveyPermissions { get; set; } = new List<SurveyPermissionsDto>();
+}
+
+
+public class ModulePermissionsDto {
+    public int? ModuleId { get; set; }
+    public int PermissionId { get; set; }
+    public string PermissionName { get; set; }
+    public string ModuleName { get; set; }
+};
+
+public class SurveyPermissionsDto
+{
+    public int? SurveyId { get; set; }
+    public int PermissionId { get; set; }
+    public string PermissionName { get; set; }
+    public string SurveyName { get; set; }
+}

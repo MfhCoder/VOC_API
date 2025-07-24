@@ -77,4 +77,33 @@ public class GenericRepository<T>(VocContext context) : IGenericRepository<T> wh
     {
         return SpecificationEvaluator<T>.GetQuery<T, TResult>(context.Set<T>().AsQueryable(), spec);
     }
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var entity = await context.Set<T>().FindAsync(id);
+        if (entity == null) return false;
+
+        context.Set<T>().Remove(entity);
+        return true;
+    }
+
+    public async Task<T?> GetByIdAsync(int id, Func<IQueryable<T>, IQueryable<T>>? include = null)
+    {
+        IQueryable<T> query = context.Set<T>();
+        if (include != null)
+        {
+            query = include(query);
+        }
+        return await query.FirstOrDefaultAsync(e => e.Id == id);
+    }
+
+    public async Task<IReadOnlyList<T>> ListAllAsync(Func<IQueryable<T>, IQueryable<T>>? include = null)
+    {
+        IQueryable<T> query = context.Set<T>();
+        if (include != null)
+        {
+            query = include(query);
+        }
+        return await query.ToListAsync();
+    }
 }

@@ -1,11 +1,9 @@
-﻿namespace Application.Dtos.RoleDtos;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Application.Dtos.RoleDtos;
 
 public record UpdateRoleDto(
+    int Id,
     string Name,
-    List<AssignPermissionsDto> Permissions);
-
-//public record RoleFilterParams : PaginationParams
-//{
-//    public string Search { get; set; }
-//    public string Organization { get; set; }
-//}
+    List<int> PermissionIds
+    );

@@ -37,7 +37,5 @@ public class User : BaseEntity
 public enum UserStatus
 {
     Active,
-    Inactive,
-    Pending,
-    Deactivated
+    Inactive
 }

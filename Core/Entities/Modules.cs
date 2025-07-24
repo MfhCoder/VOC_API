@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Core.Entities
 {
     [Table("Modules")]
-    public class Module : BaseEntity
+    public class Modules : BaseEntity
     {
         [Required]
         [StringLength(100)]

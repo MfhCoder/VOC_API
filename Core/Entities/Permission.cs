@@ -9,7 +9,7 @@ namespace Core.Entities
         [ForeignKey("Module")]
         public int? ModuleId { get; set; }
 
-        public virtual Module Module { get; set; }
+        public virtual Modules Module { get; set; }
 
         [ForeignKey("Survey")]
         public int? SurveyId { get; set; }
