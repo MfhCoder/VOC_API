@@ -13,8 +13,8 @@ namespace Application.Specifications.Users
                  x.Mobile.Contains(filterParams.Search)) &&
                 (string.IsNullOrEmpty(filterParams.Role) ||
                  x.Role.Name == filterParams.Role) &&
-                (string.IsNullOrEmpty(filterParams.Status) ||
-                 x.Status.ToString() == filterParams.Status) &&
+                (filterParams.Status == null ||
+                 x.Status == filterParams.Status) &&
                 (!filterParams.StartDate.HasValue ||
                  x.JoiningDate >= filterParams.StartDate) &&
                 (!filterParams.EndDate.HasValue ||
