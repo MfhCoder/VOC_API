@@ -19,6 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IMerchantService, MerchantService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<ISurveyBuilderService, SurveyBuilderService>();
             
             //// AutoMapper
             //services.AddAutoMapper(typeof(Application.Mappings.DeliveryProfile).Assembly);

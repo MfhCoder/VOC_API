@@ -29,7 +29,7 @@ public class VocContext : DbContext
     public DbSet<DeliveryLink> DeliveryLinks { get; set; }
     public DbSet<Modules> Module { get; set; }
     public DbSet<Permission> Permission { get; set; }
-    public DbSet<QuestionBranch> QuestionBranch { get; set; }
+    //public DbSet<QuestionBranch> QuestionBranch { get; set; }
     public DbSet<QuestionOption> QuestionOption { get; set; }
 
 
@@ -57,11 +57,20 @@ public class VocContext : DbContext
             .WithMany()
             .HasForeignKey(f => f.SubmittedBy);
 
-        //modelBuilder.Entity<RolePermission>()
-        //    .HasOne(rp => rp.Role)
-        //    .WithMany(r => r.RolePermissions)
-        //    .HasForeignKey(rp => rp.RoleId)
-        //    .OnDelete(DeleteBehavior.Cascade);
+        // SurveyQuestion - QuestionOption (One-to-Many)
+        modelBuilder.Entity<QuestionOption>()
+            .HasOne(qo => qo.Question)
+            .WithMany(q => q.Options)
+            .HasForeignKey(qo => qo.QuestionId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // SurveyQuestion - TriggerOption (Self-referencing, One-to-One or Optional)
+        modelBuilder.Entity<SurveyQuestion>()
+            .HasOne(q => q.TriggerOption)
+            .WithMany()
+            .HasForeignKey(q => q.TriggerOptionId)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 }
 

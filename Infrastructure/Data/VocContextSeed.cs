@@ -45,7 +45,38 @@ public class VocContextSeed
             await context.SaveChangesAsync();
         }
         #endregion
-        
+
+        #region Question Types Seed
+        if (!await context.QuestionTypes.AnyAsync())
+        {
+            if (!await context.QuestionTypes.AnyAsync())
+            {
+                var QuestionType = new List<QuestionType>
+                {
+                    new QuestionType
+                    {
+                        Name = "Choice(Multiple Answers)",
+                    },
+                     new QuestionType
+                    {
+                        Name = "Choice(Single Answer)",
+                    },
+                    new QuestionType
+                    {
+                        Name = "Text",
+                    },
+                    new QuestionType
+                    {
+                        Name = "Rating",
+                    }
+                   
+                };
+                context.QuestionTypes.AddRange(QuestionType);
+                await context.SaveChangesAsync();
+            }
+        }
+        #endregion
+
         #region Modules Seed
         if (!await context.Module.AnyAsync())
         {

@@ -1,6 +1,8 @@
 ﻿using Application.Dtos.Merchant;
 using Application.Dtos.RoleDtos;
+using Application.Dtos.SurveyBuilder;
 using Application.Dtos.UserDtos;
+using Application.DTOs.SurveyBuilder;
 using AutoMapper;
 using Core.Entities;
 
@@ -42,21 +44,37 @@ namespace Application.Mappings
 
             CreateMap<Modules, ModulesDto>();
 
-            //CreateMap<Role, RoleDto>()
-            //    .ForMember(dest => dest.Permissions,
-            //        opt => opt.MapFrom(src => src.RolePermissions
-            //            .Select(rp => rp.Permission.Name)));
 
-            //// Permission mappings
-            //CreateMap<Permission, PermissionDto>()
-            //    .ForMember(dest => dest.PermissionId, opt => opt.MapFrom(src => src.Id))
-            //    .ForMember(dest => dest.ModuleName, opt => opt.MapFrom(src => src.Module.Name))
-            //    .ForMember(dest => dest.SurveyName, opt => opt.MapFrom(src => src.Survey != null ? src.Survey.Title : null));
+            //Survey Builder
+            //Create
+            CreateMap<CreateSurveyDto, Survey>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<QuestionSectionDto, QuestionSection>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<SurveyQuestionDto, SurveyQuestion>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+            CreateMap<QuestionOptionDto, QuestionOption>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
 
-            //// Module mappings
-            //CreateMap<Module, ModuleDto>()
-            //    .ForMember(dest => dest.ModuleId, opt => opt.MapFrom(src => src.Id));
+            //update
+            CreateMap<Survey, GetSurveyDto>()
+                .ForMember(dest => dest.Sections, opt => opt.MapFrom(src => src.QuestionSections));
+            CreateMap<QuestionSection, GetQuestionSectionDto>();
+            CreateMap<SurveyQuestion, GetSurveyQuestionDto>();
+            CreateMap<QuestionOption, GetQuestionOptionDto>();
 
+            //Filters
+            CreateMap<SurveyFiltersDto, SurveyFilters>()
+            .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products != null ? string.Join(",", src.Products) : null))
+            .ForMember(dest => dest.Ledgers, opt => opt.MapFrom(src => src.Ledgers != null ? string.Join(",", src.Ledgers) : null));
+
+            CreateMap<SurveyFilters, SurveyFiltersDto>()
+                .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products != null ? src.Products.Split(new char[] { ',' }).ToList() : new List<string>()))
+                .ForMember(dest => dest.Ledgers, opt => opt.MapFrom(src => src.Ledgers != null ? src.Ledgers.Split(new char[] { ',' }).ToList() : new List<string>()));
+
+            CreateMap<SurveySettingsDto, Survey>();
+
+            CreateMap<QuestionType, QuestionTypeDto>();
 
         }
     }

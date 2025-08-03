@@ -15,6 +15,7 @@ public interface IGenericRepository<T> where T : BaseEntity
     Task<TResult?> GetEntityWithSpec<TResult>(ISpecification<T, TResult> spec);
     Task<IReadOnlyList<TResult>> ListAsync<TResult>(ISpecification<T, TResult> spec);
     Task<bool> DeleteAsync(int id);
+    void DeleteRange(IEnumerable<T> entities);
     void Add(T entity);
     void Update(T entity);
     void Remove(T entity);

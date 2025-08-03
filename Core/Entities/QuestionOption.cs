@@ -22,7 +22,6 @@ namespace Core.Entities
         [Required]
         public bool TriggersBranch { get; set; } = false;
 
-        public virtual ICollection<QuestionBranch> TriggeredBranches { get; set; }
         public virtual ICollection<FeedbackAnswer> Answers { get; set; }
     }
 }

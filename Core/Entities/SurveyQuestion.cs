@@ -32,10 +32,15 @@ namespace Core.Entities
         [ForeignKey("QuestionType")]
         public int QuestionTypeId { get; set; }
 
+        [ForeignKey("TriggerOption")]
+        public int? TriggerOptionId { get; set; }
+
+        public virtual QuestionOption TriggerOption { get; set; }
         public virtual QuestionType QuestionType { get; set; }
 
         public virtual ICollection<QuestionOption> Options { get; set; }
-        public virtual ICollection<QuestionBranch> ChildBranches { get; set; }
+
+        //public virtual ICollection<QuestionBranch> ChildBranches { get; set; }
         public virtual ICollection<FeedbackAnswer> Answers { get; set; }
     }
 }

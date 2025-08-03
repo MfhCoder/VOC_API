@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(VocContext))]
-    partial class VocContextModelSnapshot : ModelSnapshot
+    [Migration("20250728220511_updateQuestionBranch")]
+    partial class updateQuestionBranch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,10 +271,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<string>("MerchantId")
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
                     b.Property<string>("MerchantSettlementBank")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
@@ -489,37 +488,19 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<bool?>("Connected_DB")
-                        .HasColumnType("boolean");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer");
 
-                    b.Property<string>("MessageContent")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<bool?>("Status")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("VisibleMerchantInfo")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -634,35 +615,18 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Industry")
-                        .HasColumnType("text");
+                    b.Property<string>("ColumnName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Ledgers")
-                        .HasColumnType("text");
-
-                    b.Property<string>("License")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Location")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("MaxTenureInDays")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("MinTenureInDays")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Products")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Search")
-                        .HasColumnType("text");
+                    b.Property<string>("ColumnValue")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<int>("SurveyId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

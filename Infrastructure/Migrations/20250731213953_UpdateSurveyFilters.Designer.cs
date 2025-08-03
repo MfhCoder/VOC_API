@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(VocContext))]
-    partial class VocContextModelSnapshot : ModelSnapshot
+    [Migration("20250731213953_UpdateSurveyFilters")]
+    partial class UpdateSurveyFilters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -268,10 +271,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<string>("MerchantId")
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
                     b.Property<string>("MerchantSettlementBank")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
@@ -498,17 +497,10 @@ namespace Infrastructure.Migrations
                     b.Property<int>("CreatedBy")
                         .HasColumnType("integer");
 
-                    b.Property<string>("MessageContent")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
-
-                    b.Property<bool?>("Status")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -517,9 +509,6 @@ namespace Infrastructure.Migrations
 
                     b.Property<int?>("UserId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("VisibleMerchantInfo")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

@@ -10,6 +10,15 @@ namespace Core.Entities
         [StringLength(200)]
         public string Name { get; set; }
 
+        [StringLength(20)]
+        public string Type { get; set; }
+        public bool? Connected_DB { get; set; }
+        public bool? Status { get; set; }
+
+        [StringLength(500)]
+        public string? MessageContent { get; set; }
+        public string? VisibleMerchantInfo{ get; set; }
+
         [Required]
         [ForeignKey("Creator")]
         public int CreatedBy { get; set; }

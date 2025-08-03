@@ -3,6 +3,8 @@ using Application.Interfaces;
 using Application.Specifications;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Asn1;
+using Infrastructure.Migrations;
 
 namespace Infrastructure;
 
@@ -87,6 +89,10 @@ public class GenericRepository<T>(VocContext context) : IGenericRepository<T> wh
         return true;
     }
 
+    public void DeleteRange(IEnumerable<T> entities)
+    {
+        context.Set<T>().RemoveRange(entities);
+    }
     public async Task<T?> GetByIdAsync(int id, Func<IQueryable<T>, IQueryable<T>>? include = null)
     {
         IQueryable<T> query = context.Set<T>();

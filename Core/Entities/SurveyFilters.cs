@@ -6,13 +6,16 @@ namespace Core.Entities
     [Table("SurveyFilters")]
     public class SurveyFilters : BaseEntity
     {
-        [Required]
-        [StringLength(100)]
-        public string ColumnName { get; set; }
+        public string? Search { get; set; }
+        public string? Type { get; set; }
+        public string? Industry { get; set; }
+        public string? License { get; set; }
+        public string? Location { get; set; }
+        public int? MinTenureInDays { get; set; }
+        public int? MaxTenureInDays { get; set; }
+        public string? Products { get; set; } // Store as comma-separated string
+        public string? Ledgers { get; set; }  // Store as comma-separated string
 
-        [Required]
-        [StringLength(500)]
-        public string ColumnValue { get; set; }
 
         [Required]
         [ForeignKey("Survey")]
