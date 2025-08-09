@@ -14,7 +14,6 @@ namespace Application.Specifications.Delivery
                 (specParams.BatchId == null || x.Id == specParams.BatchId) &&
                 (string.IsNullOrEmpty(specParams.SurveyType) || x.Survey.Name.ToString() == specParams.SurveyType) &&
                 (string.IsNullOrEmpty(specParams.Channel) || x.Channel.Name.ToString() == specParams.Channel) &&
-                (string.IsNullOrEmpty(specParams.Status) || x.Status.ToString() == specParams.Status) &&
                 (!specParams.StartDate.HasValue || x.CreatedAt >= specParams.StartDate) &&
                 (!specParams.EndDate.HasValue || x.CreatedAt <= specParams.EndDate)
             )

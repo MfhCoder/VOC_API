@@ -24,20 +24,21 @@ namespace Core.Entities
 
         public DateTime? DeliveryTime { get; set; }
 
-        [Required]
-        [Range(0, int.MaxValue)]
-        public int RetryCount { get; set; }
+        public int? RetryCount { get; set; }
+        [ForeignKey("SurveyId")]
+        public int? SurveyId { get; set; }
 
-        [Required]
+        public virtual Survey Survey { get; set; }
+
         [ForeignKey("Link")]
-        public int LinkId { get; set; }
+        public int? LinkId { get; set; }
 
         public virtual DeliveryLink Link { get; set; }
 
-        [Required]
         [StringLength(500)]
-        public string EncryptionToken { get; set; }
+        public string? EncryptionToken { get; set; }
 
         public virtual ICollection<Feedback> Feedbacks { get; set; }
     }
+
 }

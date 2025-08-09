@@ -9,6 +9,32 @@ public class VocContextSeed
 {
     public static async Task SeedAsync(VocContext context)
     {
+        #region Channels Seed
+        if (!await context.Channels.AnyAsync())
+        {
+            var channels = new List<Channel>
+            {
+                new Channel
+                {
+                    Name = "SMS"
+                },
+                new Channel
+                {
+                    Name = "Whatsapp"
+                },
+                new Channel
+                {
+                    Name = "In-App"
+                },
+                new Channel
+                {
+                    Name = "Email"
+                }
+            };
+            context.Channels.AddRange(channels);
+            await context.SaveChangesAsync();
+        }
+        #endregion
 
         #region super admin role seed
         // Check if super admin role exists

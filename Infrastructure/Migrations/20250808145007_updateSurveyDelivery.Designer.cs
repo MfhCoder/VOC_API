@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(VocContext))]
-    partial class VocContextModelSnapshot : ModelSnapshot
+    [Migration("20250808145007_updateSurveyDelivery")]
+    partial class updateSurveyDelivery
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -609,9 +612,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int?>("SurveyId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BatchId");
@@ -619,8 +619,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("LinkId");
 
                     b.HasIndex("MerchantId");
-
-                    b.HasIndex("SurveyId");
 
                     b.ToTable("SurveyDeliveries");
                 });
@@ -986,17 +984,11 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Entities.Survey", "Survey")
-                        .WithMany("SurveyDelivery")
-                        .HasForeignKey("SurveyId");
-
                     b.Navigation("Batch");
 
                     b.Navigation("Link");
 
                     b.Navigation("Merchant");
-
-                    b.Navigation("Survey");
                 });
 
             modelBuilder.Entity("Core.Entities.SurveyFilters", b =>
@@ -1127,8 +1119,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Questions");
 
                     b.Navigation("SurveyBatches");
-
-                    b.Navigation("SurveyDelivery");
 
                     b.Navigation("SurveyFilters");
                 });

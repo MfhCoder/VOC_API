@@ -2,21 +2,33 @@
 using Application.DTOs.SurveyBuilder;
 using Application.Interfaces;
 using Application.Dtos.SurveyBuilder;
-using Application.Specifications;
 using Core.Entities;
-using QuestPDF.Infrastructure;
+using API.RequestHelpers;
+using Application.Specifications.SurveyBuilder;
+using AutoMapper;
 
 namespace API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SurveyBuilderController : ControllerBase
+    public class SurveyBuilderController : BaseApiController
     {
         private readonly ISurveyBuilderService _surveyBuilderService;
 
-        public SurveyBuilderController(ISurveyBuilderService surveyBuilderService)
+        public SurveyBuilderController(ISurveyBuilderService surveyBuilderService, IMapper mapper) : base(mapper)
         {
             _surveyBuilderService = surveyBuilderService;
+        }
+        [HttpGet]
+        public async Task<ActionResult<Pagination<SurveyDto>>> GetSurveys([FromQuery] SurveyFilterParams filterParams)
+        {
+            var spec = new SurveySpecification(filterParams);
+
+            return await CreatePagedResult<Survey, SurveyDto>(
+                _surveyBuilderService.GetSurveysAsync(),
+                spec,
+                filterParams.PageIndex,
+                filterParams.PageSize);
         }
 
         [HttpPost]

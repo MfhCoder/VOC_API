@@ -1,6 +1,7 @@
 ﻿using Application.Dtos.Merchant;
 using Application.Dtos.RoleDtos;
 using Application.Dtos.SurveyBuilder;
+using Application.Dtos.SurveyDelivery;
 using Application.Dtos.UserDtos;
 using Application.DTOs.SurveyBuilder;
 using AutoMapper;
@@ -44,8 +45,26 @@ namespace Application.Mappings
 
             CreateMap<Modules, ModulesDto>();
 
-
             //Survey Builder
+            CreateMap<Survey, SurveyDto>().ForMember(dest => dest.ResponsesCount, opt => opt.MapFrom(src => src.Feedbacks.Count()));
+
+            //SurveyBatch
+            CreateMap<SurveyBatch, SurveyBatchDto>()
+            .ForMember(dest => dest.BatchId, opt => opt.MapFrom(src => src.Id))
+            //.ForMember(dest => dest.ChannelName, opt => opt.MapFrom(src => src.Channel.Name))
+            .ForMember(dest => dest.SurveysSent, opt => opt.MapFrom(src => src.SurveyDelivery.Where(s => s.Status == "Delivered").Count()))
+            .ForMember(dest => dest.SurveysResponses, opt => opt.MapFrom(src => src.Survey.Feedbacks.Count()))
+            .ForMember(d => d.DeliveryRate, o => o.MapFrom(s =>
+            (s.SurveyDelivery != null && s.SurveyDelivery.Count() > 0)
+                ? ((decimal)(s.Survey.Feedbacks != null ? s.Survey.Feedbacks.Count() : 0) / s.SurveyDelivery.Count()) * 100
+                : 0
+            ))
+            .ForMember(d => d.ResponseRate, o => o.MapFrom(s =>
+            (s.Survey.Feedbacks != null && s.Survey.Feedbacks.Count() > 0)
+                ? ((decimal)(s.Survey.Feedbacks != null ? s.Survey.Feedbacks.Count() : 0) / s.SurveyDelivery.Count()) * 100
+                : 0
+            ));
+
             //Create
             CreateMap<CreateSurveyDto, Survey>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore());

@@ -16,6 +16,7 @@ namespace Application.Interfaces
         Task<int> UpdateSurveyFilterAsync(SurveyFiltersDto dto);
         Task<SurveyFiltersDto> GetSurveyFilterAsync(int SurveyId);
         Task<int> SaveSurveySettingsAsync(SurveySettingsDto dto);
+        IGenericRepository<Survey> GetSurveysAsync();
 
     }
 }

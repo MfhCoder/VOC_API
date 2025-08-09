@@ -21,6 +21,7 @@ namespace Application.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
+        public IGenericRepository<Survey> GetSurveysAsync() => _unitOfWork.Repository<Survey>();
 
         public async Task<int> CreateSurveyAsync(CreateSurveyDto dto)
         {

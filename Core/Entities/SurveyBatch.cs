@@ -26,11 +26,6 @@ namespace Core.Entities
         public DateTime ScheduledTime { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string Status { get; set; }
-
-        [Required]
-        [Range(0, int.MaxValue)]
         public int MerchantCount { get; set; }
 
         [Required]

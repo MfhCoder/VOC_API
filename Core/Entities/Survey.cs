@@ -34,5 +34,7 @@ namespace Core.Entities
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<Permission> Permissions { get; set; }
         public virtual ICollection<SurveyFilters> SurveyFilters { get; set; }
+        public virtual ICollection<SurveyDelivery> SurveyDelivery { get; set; }
+
     }
 }

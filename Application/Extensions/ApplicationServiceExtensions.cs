@@ -20,7 +20,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ISurveyBuilderService, SurveyBuilderService>();
-            
+            services.AddScoped<ISurveyDeliveryService, SurveyDeliveryService>();
+
             //// AutoMapper
             //services.AddAutoMapper(typeof(Application.Mappings.DeliveryProfile).Assembly);
 
