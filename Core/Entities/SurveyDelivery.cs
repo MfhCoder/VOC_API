@@ -30,13 +30,19 @@ namespace Core.Entities
 
         public virtual Survey Survey { get; set; }
 
-        [ForeignKey("Link")]
-        public int? LinkId { get; set; }
-
-        public virtual DeliveryLink Link { get; set; }
-
+        // Represents the URL for the survey, which is a combination of the site URL from app settings and an encryption token.
+        [Required]
         [StringLength(500)]
-        public string? EncryptionToken { get; set; }
+        public string SurveyURL { get; set; } // SiteURL(From appsetting) + EncryptionToken
+
+        // Represents the expiration date of the survey link, which is required.
+        // This date is typically set to five days from the current date.
+        [Required]
+        public DateTime LinkExpirationDate { get; set; } // five days from now
+
+        // Represents an optional encryption token for the survey, which is a string that combines the MerchantId and SurveyId.
+        [StringLength(500)]
+        public string EncryptionToken { get; set; } // encrypted (MerchantId+"-"+SurveyId)
 
         public virtual ICollection<Feedback> Feedbacks { get; set; }
     }

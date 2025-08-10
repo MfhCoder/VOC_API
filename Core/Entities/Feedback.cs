@@ -9,6 +9,7 @@ namespace Core.Entities
         [Required]
         [ForeignKey("Survey")]
         public int SurveyId { get; set; }
+        public bool? Sentiment { get; set; }
 
         public virtual Survey Survey { get; set; }
 
