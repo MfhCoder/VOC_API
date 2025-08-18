@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(VocContext))]
-    partial class VocContextModelSnapshot : ModelSnapshot
+    [Migration("20250811214400_removeNameFromSurveyBatch")]
+    partial class removeNameFromSurveyBatch
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -562,9 +565,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("BatchId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTime?>("DeliveryTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -595,12 +595,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BatchId");
@@ -608,8 +602,6 @@ namespace Infrastructure.Migrations
                     b.HasIndex("MerchantId");
 
                     b.HasIndex("SurveyId");
-
-                    b.HasIndex("UpdatedBy");
 
                     b.ToTable("SurveyDeliveries");
                 });
@@ -975,17 +967,11 @@ namespace Infrastructure.Migrations
                         .WithMany("SurveyDelivery")
                         .HasForeignKey("SurveyId");
 
-                    b.HasOne("Core.Entities.User", "Updater")
-                        .WithMany()
-                        .HasForeignKey("UpdatedBy");
-
                     b.Navigation("Batch");
 
                     b.Navigation("Merchant");
 
                     b.Navigation("Survey");
-
-                    b.Navigation("Updater");
                 });
 
             modelBuilder.Entity("Core.Entities.SurveyFilters", b =>

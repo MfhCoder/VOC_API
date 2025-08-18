@@ -5,6 +5,7 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1;
 using Infrastructure.Migrations;
+using System.Linq.Expressions;
 
 namespace Infrastructure;
 
@@ -106,10 +107,26 @@ public class GenericRepository<T>(VocContext context) : IGenericRepository<T> wh
     public async Task<IReadOnlyList<T>> ListAllAsync(Func<IQueryable<T>, IQueryable<T>>? include = null)
     {
         IQueryable<T> query = context.Set<T>();
+
         if (include != null)
         {
             query = include(query);
         }
         return await query.ToListAsync();
     }
+
+    //public async Task<IReadOnlyList<T>> ListAsync(
+    //    Expression<Func<T, bool>> predicate,
+    //    Func<IQueryable<T>, IQueryable<T>>? include = null)
+    //{
+    //    IQueryable<T> query = context.Set<T>().Where(predicate);
+
+    //    if (include != null)
+    //    {
+    //        query = include(query);
+    //    }
+
+    //    return await query.ToListAsync();
+    //}
+
 }

@@ -26,7 +26,7 @@ public class VocContext : DbContext
     public DbSet<Tag> Tags { get; set; }
     public DbSet<FeedbackTag> FeedbackTags { get; set; }
     public DbSet<Escalation> Escalations { get; set; }
-    public DbSet<DeliveryLink> DeliveryLinks { get; set; }
+    //public DbSet<DeliveryLink> DeliveryLinks { get; set; }
     public DbSet<Modules> Module { get; set; }
     public DbSet<Permission> Permission { get; set; }
     //public DbSet<QuestionBranch> QuestionBranch { get; set; }

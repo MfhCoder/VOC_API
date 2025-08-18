@@ -43,7 +43,13 @@ namespace Core.Entities
         // Represents an optional encryption token for the survey, which is a string that combines the MerchantId and SurveyId.
         [StringLength(500)]
         public string EncryptionToken { get; set; } // encrypted (MerchantId+"-"+SurveyId)
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
+        [ForeignKey("Updater")]
+        public int? UpdatedBy { get; set; }
+
+        public virtual User Updater { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
     }
 

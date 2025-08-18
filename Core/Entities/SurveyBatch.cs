@@ -6,10 +6,10 @@ namespace Core.Entities
     [Table("SurveyBatches")]
     public class SurveyBatch : BaseEntity
     {
-        [Required]
-        [StringLength(200)]
-        public string Name { get; set; }
-
+        public SurveyBatch()
+        {
+               this.SurveyDelivery = new List<SurveyDelivery>(); 
+        }
         [Required]
         [ForeignKey("Survey")]
         public int SurveyId { get; set; }

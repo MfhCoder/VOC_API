@@ -10,17 +10,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QuestPDF.Infrastructure;
 using System.Text;
+using Hangfire;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.EnableAnnotations();
+});
 
 builder.Services
     .AddApplicationServices()  // From Application layer
-    .AddInfrastructureServices();  // From Infrastructure
+    .AddInfrastructureServices(builder.Configuration);  // From Infrastructure
   //.AddCoreServices();  // From Core if you have any
 
 // PostgreSQL;
@@ -99,5 +104,5 @@ catch (Exception ex)
 }
 
 QuestPDF.Settings.License = LicenseType.Community;
-
+app.UseHangfireDashboard("/background-tasks");
 app.Run();

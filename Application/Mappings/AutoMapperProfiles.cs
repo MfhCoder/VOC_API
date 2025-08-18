@@ -1,4 +1,5 @@
-﻿using Application.Dtos.Merchant;
+﻿using Application.Dtos.CustomerFeedback;
+using Application.Dtos.Merchant;
 using Application.Dtos.RoleDtos;
 using Application.Dtos.SurveyBuilder;
 using Application.Dtos.SurveyDelivery;
@@ -22,7 +23,7 @@ namespace Application.Mappings
               .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.Name)).ReverseMap();
 
             CreateMap<CreateUserDto, User>()
-             .ForMember(dest => dest.JoiningDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
+             .ForMember(dest => dest.JoiningDate, opt => opt.MapFrom(_ => DateTime.UtcNow));//???
 
             CreateMap<UpdateUserDto, User>();
 
@@ -34,7 +35,7 @@ namespace Application.Mappings
                 .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Name));
 
             CreateMap<CreateRoleDto, Role>()
-             .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));
+             .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(_ => DateTime.UtcNow));//???
 
             // Permission mappings
             CreateMap<CreatePermissionDto, Permission>();
@@ -86,6 +87,14 @@ namespace Application.Mappings
             CreateMap<SurveyFiltersDto, SurveyFilters>()
             .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products != null ? string.Join(",", src.Products) : null))
             .ForMember(dest => dest.Ledgers, opt => opt.MapFrom(src => src.Ledgers != null ? string.Join(",", src.Ledgers) : null));
+
+            CreateMap<Feedback, CustomerFeedbackDto>()
+            .ForMember(dest => dest.MID, opt => opt.MapFrom(src => src.Merchant.MerchantId))
+            .ForMember(dest => dest.MerchantName, opt => opt.MapFrom(src => src.Merchant.Name))
+            .ForMember(dest => dest.SurveyName, opt => opt.MapFrom(src => src.Survey.Name))
+            .ForMember(dest => dest.Sentiment, opt => opt.MapFrom(src => src.Sentiment))
+            .ForMember(dest => dest.ResponseDate, opt => opt.MapFrom(src => src.SubmittedAt))
+            .ForMember(dest => dest.BatchId, opt => opt.MapFrom(src => src.Delivery.BatchId));
 
             CreateMap<SurveyFilters, SurveyFiltersDto>()
                 .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products != null ? src.Products.Split(new char[] { ',' }).ToList() : new List<string>()))

@@ -4,6 +4,7 @@ using Core.Entities;
 using API.RequestHelpers;
 using AutoMapper;
 using Application.Specifications.SurveyDelivery;
+using Stripe;
 
 namespace API.Controllers
 {
@@ -16,6 +17,21 @@ namespace API.Controllers
         public SurveyDeliveryController(ISurveyDeliveryService surveyDeliveryService, IMapper mapper) : base(mapper)
         {
             _surveyDeliveryService = surveyDeliveryService;
+        }
+
+        [HttpPost("batch")]
+        public async Task<ActionResult<SurveyBatchDto>> CreateSurveyBatch([FromBody] SurveyBatchCreateDto dto)
+        {
+            var batchId = await _surveyDeliveryService.CreateSurveyBatchAsync(dto);
+            return Ok(new { batchId });
+        }
+        [HttpPost("batch/{batchId}/resend-undelivered")]
+        public async Task<ActionResult<int>> ResendUndeliveredSurveys([FromRoute] int batchId)
+        {
+            var count = await _surveyDeliveryService.ResendUndeliveredSurveysAsync(batchId);
+            if (count == 0)
+                return NotFound("No undelivered surveys found to resend.");
+            return Ok(new { resentCount = count });
         }
 
         [HttpGet("GetTotalSurveyStatistics")]
